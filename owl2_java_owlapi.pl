@@ -964,7 +964,7 @@ show_java_memory_info :-
         java_memory_info(M,TM,FM,MM),
         Mb is M/(1024*1024),
         MMb is MM/(1024*1024),
-        format(user_error,'Mem: ~wmb (~wb) // Max: ~wmb (~wb) // ~w - ~w',[Mb,M,MMb,MM,TM,FM]).
+        format(user_error,'Mem: ~2fMb (~Db) // Max: ~2fMb (~Db) // ~D - ~D',[Mb,M,MMb,MM,TM,FM]).
         %print_message(informational,memory(M,TM,FM)).
 java_memory_info(M,TM,FM,MM) :-
         java_gc,
