@@ -131,8 +131,7 @@ We are envisioning something whereby the application programmer can write:
 
 ```
 load_axioms('myont.owl'),
-initialize_reasoner(pellet,Opts,Reasoner),
-reasoner_tell(Reasoner),
+initialize_reasoner(pellet,Reasoner),
 forall(reasoner_ask(Reasoner,subClassOf(X,Y)),
        writeln(X-Y)).
 ```
