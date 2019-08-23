@@ -95,10 +95,15 @@ build_ontology(Man,Fac,Ont) :-
         ;   OntName='http://example.org'),
         create_ontology(Man,OntName,Ont),
         forall(axiom(Ax),
-               (   debug(owl2,'[[Adding axiom: ~w',[Ax]),
-                   add_axiom(Man,Fac,Ont,Ax,_),
-                   debug(owl2,'  /Added axiom: ~w]]',[Ax]))),
+               add_axiom_noerror(Man,Fac,Ont,Ax,_)),
         debug(owl2,'Built ontology',[]).
+
+add_axiom_noerror(Manager,Factory,Ont,Axiom,JAx) :-
+        debug(owl2,'[[Adding axiom: ~p', [Axiom]),
+        add_axiom(Manager,Factory,Ont,Axiom,JAx), !,
+        debug(owl2,'  /Added axiom: ~p]]',[Axiom]).
+add_axiom_noerror(_Manager,_Factory,_Ont,Axiom,_JAx) :-
+        print_message(warning, thea(failed(add_axiom(Axiom)))).
 
 build_single_ontology(Man,Fac,OntIRI,Ont) :-
         require_manager(Man),
