@@ -543,7 +543,7 @@ owlterm_java(Fac,_,OWLTerm,Obj) :-
         ->  M=getOWLClass
         ;   objectProperty(OWLTerm)
         ->  M=getOWLObjectProperty
-        ;   \+ \+ classAssertion(_,M)
+        ;   \+ \+ classAssertion(_,_M)  % JW: was `M`, but that makes no sense
         ->  M=getOWLNamedIndividual
         ;   throw(OWLTerm)),
         debug(owl2,'  using: ~w',[M]),
