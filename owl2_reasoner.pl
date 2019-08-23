@@ -4,6 +4,8 @@
           [
 	   initialize_reasoner/2,
 	   initialize_reasoner/3,
+	   current_reasoner/1,
+
 	   reasoner_tell/2,
 	   reasoner_tell_all/1,
 	   reasoner_ask/3,
@@ -55,12 +57,23 @@ initialize_reasoner(cached(File),cached(File),_) :-
 initialize_reasoner(Type,_,Opts) :-
         throw(error(initialize_reasoner(Type,Opts))).
 
+%!	current_reasoner(-Reasoner) is semidet.
+%
+%	True  if  Reasoner  is   our    current   reasoner   created  by
+%	initialize_reasoner/2,3.
+
+current_reasoner(Reasoner) :-
+	nb_current(reasoner, Reasoner).
+
 %% reasoner_tell(+Reasoner,+Axiom)
 % feed an axiom to the reasoner
 reasoner_tell(Reasoner,Axiom) :-
 	reasoner_tell_hook(Reasoner,Axiom).
 
-%% reasoner_tell_all(+Reasoner)
+%%	reasoner_tell_all(+Reasoner)
+%
+%	Upload all axioms to Reasoner.
+
 reasoner_tell_all(Reasoner) :-
 	reasoner_tell_all_hook(Reasoner),
 	!.
