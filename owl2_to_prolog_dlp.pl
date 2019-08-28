@@ -10,6 +10,7 @@
            owl_write_prolog_code/2
            ]).
 :- use_module(library(debug)).
+:- use_module(library(solution_sequences)).
 
 :- use_module(owl2_model).
 :- use_module(owl2_from_rdf,[collapse_ns/4]).
@@ -59,19 +60,19 @@ owl_write_all_dlpterms(Opts) :-
 % we could also consider to use `:- style_check(-discontiguous).`
 write_directives(discontiguous,_Opts) :-
         format(':- discontiguous(~q/1).~n',['Thing']),
-        forall(class(C),
+        forall(distinct(class(C)),
                write_discontiguous_class(C,Opts)),
-        forall(property(P),
+        forall(distinct(property(P)),
                write_discontiguous_property(P,Opts)).
 write_directives(table,Opts) :-
-        forall(class(C),
+        forall(distinct(class(C)),
                write_table_class(C,Opts)),
-        forall(property(P),
+        forall(distinct(property(P)),
                write_table_property(P,Opts)).
 write_directives(dummy_fact,Opts) :-
-        forall(class(C),
+        forall(distinct(class(C)),
                write_dummy_class(C,Opts)),
-        forall(property(P),
+        forall(distinct(property(P)),
                write_dummy_property(P,Opts)).
 
 write_table_class(X,Opts) :-
