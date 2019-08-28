@@ -124,6 +124,10 @@ owl_write_dlpterm(OwlAsTerm,Options) :-
         format('% ~q ~n',[OwlAsTerm]),
 	owl_write_prolog_code(R,Options),
         !.
+owl_write_dlpterm(datatype(integer), _) :- !.
+owl_write_dlpterm(datatype(decimal), _) :- !.
+owl_write_dlpterm(datatype(float), _) :- !.
+owl_write_dlpterm(datatype(string), _) :- !.
 owl_write_dlpterm(OwlAsTerm,_) :-
         throw(thea(cannot_write(OwlAsTerm))).
 
