@@ -288,8 +288,17 @@ codes_tokens_filtered(Codes,Tokens) :-
         phrase(tokens(Tokens), Codes).
 
 tokens(Tokens) -->
-        blanks,
+        blanks_and_comments,
         tokens2(Tokens).
+
+blanks_and_comments -->
+        blanks,
+        (   "#", string(_), "\n"
+        ->  blanks_and_comments
+        ;   "#", string(_), eos
+        ->  ""
+        ;   ""
+        ).
 
 tokens2([]) -->
         eos, !.
