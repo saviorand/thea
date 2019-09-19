@@ -5,6 +5,7 @@
             owl_generate_manchester/2           % +FileName, +Options
           ]).
 :- use_module(owl2_model).
+:- use_module(library(option)).
 
 /** <module> Generate Manchester syntax
 
@@ -30,9 +31,19 @@ owl_generate_manchester(FileName, Options) :-
         close(Out)).
 
 owl_generate_manchester_to_stream(Out, Options) :-
+    save_prefixes(Out, Options),
     ontology(Ontology, Options),
-    format(Out, 'Ontology: <~w>~n', [Ontology]),
+    format(Out, '~nOntology: <~w>~n', [Ontology]),
     save_classes(Out).
+
+save_prefixes(Out, Options) :-
+    save_default_prefix(Out, Options).
+
+save_default_prefix(Out, Options) :-
+    option(prefix(Prefix), Options),
+    !,
+    format(Out, 'Prefix: : <~w>~n', [Prefix]).
+save_default_prefix(_, _).
 
 ontology(Ontology, Options) :-
     option(ontology(Ontology), Options),
