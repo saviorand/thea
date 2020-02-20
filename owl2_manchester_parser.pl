@@ -98,7 +98,8 @@ process_ontdoc(Ontology) :-
 %
 %       Translate the parser AST into a list of axioms.
 
-ontdoc_axioms(NSL-ontology(O,_L1,_L2,Frames), Axioms) :-
+ontdoc_axioms(NSL-ontology(O,_L1,_L2,Frames), [ontology(O)|Axioms]) :-
+	nb_setval(current_ontology, O),
         maplist(process_frame(O-NSL), Frames, NestedAxioms),
         append(NestedAxioms, Axioms).
 
