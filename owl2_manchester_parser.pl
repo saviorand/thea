@@ -48,7 +48,7 @@ owl_parse_manchester_frame(A,Axioms) :-
 	atom_codes(A,L),
 	codes_tokens_filtered(L,Toks),
 	frame(X,Toks,[]),
-	process_frame(X,'',Axioms).
+	process_frame('', X, Axioms).
 
 		 /*******************************
 		 *         SYNTAX ERRORS	*
