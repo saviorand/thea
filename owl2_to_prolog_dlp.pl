@@ -28,11 +28,12 @@
 
 :- multifile owl2_io:save_axioms_hook/3.
 owl2_io:save_axioms_hook(File,dlp,Opts) :-
-        (   nonvar(File)
-        ->  tell(File)
-        ;   true),
-        owl_write_all_dlpterms(Opts),
-        told.
+        nonvar(File),
+        !,
+        setup_call_cleanup(
+            tell(File),
+            owl_write_all_dlpterms(Opts),
+            told).
 owl2_io:save_axioms_hook(File,dlp_yap,Opts) :-
         owl2_io:save_axioms_hook(File,dlp,[write_directives(table)|Opts]).
 
