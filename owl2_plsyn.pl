@@ -6,7 +6,7 @@
 
                       plsyn_owl/2,
                       plsyn_owl/3,
-                      
+
                       op(980,xfy,(--)),
                       op(950,xfy,\^), % disjoint classes
                       %op(950,fx,class),
@@ -80,6 +80,13 @@ owl2_io:load_axioms_hook(File,plsyn,Opts) :-
         owl_parse_plsyn(File,Opts). % TODO
 
 :- multifile owl2_io:save_axioms_hook/3.
+owl2_io:save_axioms_hook(File,plsyn,Opts) :-
+        nonvar(File),
+        !,
+        setup_call_cleanup(
+            tell(File),
+            write_owl_as_plsyn(Opts),
+            told).
 owl2_io:save_axioms_hook(_File,plsyn,Opts) :-
         write_owl_as_plsyn(Opts).
 
@@ -344,8 +351,8 @@ plpred2owlpred(::,classAssertion).
 plpred2owlpred(<,subClassOf).
 plpred2owlpred(@<,subPropertyOf).
 
-plpred2owlpred_list(\=,differentIndividuals). 
-%plpred2owlpred_list(\=,disjointClasses). 
+plpred2owlpred_list(\=,differentIndividuals).
+%plpred2owlpred_list(\=,disjointClasses).
 
 cardinality_pred(min).
 cardinality_pred(max).
@@ -394,7 +401,7 @@ TODO: show translation table
   * = --- sameIndividual/1
   * \= --- differentIndividuals/1
   * :: --- classAssertion/2
- 
+
 ---++ Property Characteristic Prefix Predicates
 
 the following are all declared prefix
