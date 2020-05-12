@@ -110,19 +110,30 @@ write_owl_as_plsyn:-
         write_owl_as_plsyn([]).
 
 write_owl_as_plsyn(Opts):-
-	setof(Ont,member(ontology(Ont),Opts),Onts),
-	!,
-	% this clause optimized for ontology filtering
+        setof(Ont,member(ontology(Ont),Opts),Onts),
+        !,
+        Onts=[FirstOnt|_],		% ensure ontology/1 is written at top...
+        format('~q.~n', [ontology(FirstOnt)]),	% use first ontology as
+                                                % new ontology name
+        % this clause optimized for ontology filtering
         forall((member(Ont,Onts),
-		ontologyAxiom(Ont,A),
-		\+exclude_axiom(A,Opts)),
-	       (   plsyn_owl(Pl,A,Opts),
-		   format('~q.~n',[Pl]))).
-write_owl_as_plsyn(Opts):-
-        forall((axiom(A),\+exclude_axiom(A,Opts)),
+                ontologyAxiom(Ont,A),
+                A\=ontology(_),
+                \+exclude_axiom(A,Opts)),
 	       (   plsyn_owl(Pl,A,Opts),
 		   format('~q.~n',[Pl]))).
 
+write_owl_as_plsyn(Opts):-
+	% ensure to write ontology/1 at the top, if it exists
+	(   axiom(ontology(Ont))
+        ->  format('~q.~n', [ontology(Ont)])
+        ;   true
+        ),
+        forall((axiom(A),
+		A\=ontology(_),
+		\+exclude_axiom(A,Opts)),
+	       (   plsyn_owl(Pl,A,Opts),
+		   format('~q.~n',[Pl]))).
 
 % TODO: move somewhere generic
 exclude_axiom(H,Opts) :-
