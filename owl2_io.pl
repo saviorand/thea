@@ -149,10 +149,11 @@ convert_axioms(FileIn,FmtIn,FileOut,FmtOut,Opts) :-
         save_axioms(FileOut,FmtOut,Opts).
 
 % TODO - check if this is the best way of doing this
-load_handler(Dir,Fmt) :-
-        forall(format_module(Dir,Fmt,Mod),
-	       ensure_loaded(library(thea2/Mod))).
-
+load_handler(Dir, Fmt) :-
+    forall(format_module(Dir, Fmt, Mod),
+           (atom_concat('./thea/', Mod, Path),
+            ensure_loaded(Path))).
+	    
 guess_format(File,Fmt,_Opts) :-
         atomic_list_concat(Toks,'.',File),
         reverse(Toks,[Suffix,_|_]),
